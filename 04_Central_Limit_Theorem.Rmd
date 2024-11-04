@@ -1,0 +1,81 @@
+---
+title: "Central Limit Theorem (The Math Sorcerer)"
+author: Luis Cárceles
+output: html_document
+date: "2024-03-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The [Math Sorcerer YouTube CLT video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjPnE8L3zgXBhEHxtC58WBmv) for Central Limit Theorem
+
+**Central Limit Theorem (CLT): If n, the sample size of a random variable x, is greater or equal to 30, then the sample mean of x,** $\bar{x}$, **distributes approximately normal**.
+
+**In a special case that the distribution of x is normal with mean** $\mu$ **and standard deviation** $\sigma$ **, the mean of the sample,** $\bar{x}$, **is also** $\mu$, **and the standard deviation of** $\bar{x}$ **is** $\sigma/\sqrt{n}$**, where n is the sample size.**
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Example
+
+The height, in inches, of any woman of the world has a normal distribution with mean 64in and standard deviation of 2in. We take a sample of 40 women. Which is the probability that the average height of the 40 women is greater than 65 inches?
+
+```{r}
+p<-1-pnorm(65, 64, 2/sqrt(40))
+sprintf("The probability that the average height is over 65 is: %f", p)
+```
+
+Take in account that, even the limit is quite close to the mean of the population, the graph of the distribution of the sample average is squeezed by sqrt(n).
+
+## Problems
+
+### Problem 1
+
+Assume that females have pulse rates that are normally distributed with a mean of 74bpm and a standard deviation of 12.5bpm. (a) If one adult female is randomly selected, find the probability that her pulse rate is less than 80bpm. (b) If 25 females are randomly selected, find the probability that they have an average pulse rate lower than 80bpm.
+
+```{r}
+a<-pnorm(80, 74, 12.5)
+b<-pnorm(80, 74, 12.5/sqrt(25))
+sprintf("The probability that the pulse rate is less than 80 is: %f", a)
+sprintf("The probability that the average pulse rate of 25 women is less than 80 is: %f", b)
+```
+
+### Problem 2
+
+An elevator has a placard stating that the maximum capacity is 1650lb --10 passengers. So 10 adult male passenger can have a mean weight of up 165 pounds. If the elevator is loaded with 10 adult male passengers, find the probability that is overloaded because the have a mean weight over 165 lb. (Assume that weights of males are normally distributed with a mean of 167lb and a standard deviation of 25lb). Does this elevator appear to be safe?
+
+```{r}
+p_elev<-1-pnorm(165, 16.7, 25/sqrt(10))
+sprintf("The probability that the elevator is overloaded is: %f", p_elev)
+```
+
+The elevator does not appear to be safe.
+
+### Problem 3
+
+Suppose that an airline uses a seat width of 16.5in. Assume men have hip breadths that are normally distributed with a mean 14.3in and a standard deviation of 0.9in. (a) Find a probability that if an individual man is randomly selected, his hip breadth will be greater than 16.5in
+
+```{r}
+p_a<-1-pnorm(16.5, 14.3, 0.9)
+sprintf("The probability required is: %f", p_a)
+```
+
+(b) If a plane is filled with 118 randomly selected men, find the probability that these men have a mean hip breadth greater than 16.5in
+
+```{r}
+p_b<-1-pnorm(16.5, 14.3, 0.9/sqrt(118))
+sprintf("The probability of the group mean hip breadth is: %f", p_b)
+```
+
+For any change in the design, (a) should be taken into account since (b) is involves a sample mean not a individual value.

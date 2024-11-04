@@ -1,0 +1,132 @@
+---
+title: "Hypothesis Test about Two Means (Dependent Samples)  (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-05"
+output: html_document
+---
+
+See The [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjM3z1pTXzeWrh14OPD87Ajb) by the Math Sorcerer
+
+## Introduction
+
+If we have two samples, $X$ and $Y$, but the data of both samples are related by pairs, a new variable $D$ can be defined as a difference in each pair, $D=X-Y$. The expected means of the populations will be
+
+$$\mu_{X}-\mu_{Y}=E[X]-E[Y]=E[X-Y]=E[D]=\mu_{D}$$
+
+### Hypothesis test
+
+To build our hypothesis test we consider three different cases
+
+I: Left tailed test:
+
+-   $H_{0}$: $\mu_{D}=0$
+
+-   $H_{1}$: $\mu_{D}<0$
+
+II: Right tailed test:
+
+-   $H_{0}$: $\mu_{D}=0$
+
+-   $H_{1}$: $\mu_{D}>0$
+
+III: Two tailed test:
+
+-   $H_{0}$: $\mu_{D}=0$
+
+-   $H_{1}$: $\mu_{D}\ne 0$
+
+The statistic to be used is:
+
+$$T_{n-1}=\frac{\bar{D}-0}{S_{d}\sqrt{n}}$$
+
+Where $\bar{D}$ is the mean of the difference of the paired samples, $S_{d}$ is the standard deviation of the differences and $n$ is the sample size. The statistic $T_{n-1}$ has a Student T distribution with $n-1$ degrees of freedom.
+
+### Confidence interval
+
+In this case, the bounds of $1-\alpha$ confidence level can be computed with the formula:
+
+$$\bar{D}\pm t_{\alpha/2}S_{d}\sqrt{n}$$
+
+Where $t$ has a Student T distribution with $n-1$ degrees of freedom and $S_{d}$ is the standard deviation of the sample differences.
+
+## Problems
+
+### Problem 1
+
+Listed below are systolic blood pressure measurements (mm Hg) taken from the right and left arms of the same woman. Assume that the paired sample data is a simple random sample and that differences have a distribution approximately normal. Use a 0.01 significance level to test for a difference between the measurements from the two arms. What can be conclude?
+
+Right arm: 152, 138, 138, 134, 138 Left arm: 180, 173, 173, 155, 142
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu_{D}=0$
+-   $H_{1}$: $\mu_{D}\ne 0$ (Two tailed test)
+
+2.  Compute the Test Statistic:
+
+```{r}
+X<-c(152, 138, 138, 134, 138)
+Y<-c(180, 173, 173, 155, 142)
+D<-X-Y
+n<-length(D)
+Dbar<-mean(D)
+Dsd<-sd(D)
+t<-Dbar/(Dsd/sqrt(n))
+sprintf("The value of the t statistic is: %f", t)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value<-2*pt(q = t, df = n-1, lower.tail = TRUE)
+sprintf("The p-value of the test is: %f", p_value)
+```
+
+4.  Make a Decision
+
+p-value is slightly greater than the level of significance (0.01) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At 1% significance level we can say that there is not evidence to support $H_{1}$, that is, there no sufficient evidence to say that there are differences of the blood pressure between the right and the left arms.
+
+### Problem 2
+
+Se desarrolla un nuevo algoritmo para solucionar problemas de programación lineal. Se piensa que el nuevo algoritmo solucona los problemas con mayor rapidez. Se seleccionan diversos problemas al azar para obtener datos que sustenten la hiótesis de investigación. Cada problema se resuelve dos veces, una con el algoritmo actual y otra con el nuevo algoritmo. Se presentan dos conjuntos de datos no independeintes: antiguo: 8.05, 24.74, 28.33, 8.45, 9.19, 25.20, 14.05, 29.33, 4.82, 8.54 nuevo: 0.71, 0.74, 0.74, 0.77, 0.80, 0.83, 0.82, 0.77, 0.71, 0.72 Confeccionar la prueba de hipótesis para demostar que el nuevo algoritmo es más rápido.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu_{D}=0$
+-   $H_{1}$: $\mu_{D}>0$ (Right) tailed test)
+
+2.  Compute the Test Statistic:
+
+```{r}
+X<-c(8.05, 24.74, 28.33, 8.45, 9.19, 25.20, 14.05, 29.33, 4.82, 8.54)
+Y<-c(0.71, 0.74, 0.74, 0.77, 0.80, 0.83, 0.82, 0.77, 0.71, 0.72)
+D<-X-Y
+n<-length(D)
+Dbar<-mean(D)
+Dsd<-sd(D)
+t<-Dbar/(Dsd/sqrt(n))
+sprintf("The value of the t statistic is: %f", t)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value<pt(q = t, df = n-1, lower.tail = FALSE)
+sprintf("The p-value of the test is: %f", p_value)
+```
+
+4.  Make a Decision
+
+If we consider a significance level of 5%, p-value is lower than the level of significance (0.05) then we must reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's sufficient evidence to support $H_{1}$ (our claim). The new algorith is faster.

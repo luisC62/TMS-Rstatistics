@@ -1,0 +1,154 @@
+---
+title: "Confidence Interval for proportions (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-03-30"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+See [The Math Sorcerer YouTube CLT video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjNvUjHm0Jct_XnxAVPMszHX) for Confidence Interval for Proportions
+
+The estimation of a proportion $\hat{p}$ can be calculated as :
+
+::: {style="text-align: center;"}
+$\hat{p}=\sum_{i}X_i/n$
+:::
+
+Where $X_i$ are 1 if is a success in the i-th try, and $n$ is the number of tries. According the Central Limit Theorem, CLT, if z is a random variable distributed normal with mean 0 and standard deviation 1, The $\alpha$-confident limits are calculated as:
+
+::: {style="text-align: center;"}
+$\hat{p}=z_{\alpha/2}\pm\sqrt{\hat{p}(1-\hat{p})/n}$
+:::
+
+To compute the sample size needed to get a $100(1-\alpha)$ confidence interval, with a margin of error of $d$, use the formula:
+
+::: {style="text-align: center;"}
+$n=\frac{z_{\alpha/2}^2\hat{p}(1-\hat{p})}{d^2}$
+:::
+
+But, in absence of $\hat{p}$, the next formula can be used:
+
+::: {style="text-align: center;"}
+$n=\frac{z_{\alpha/2}^2}{4d^2}$
+:::
+
+See problems 4 and 5.
+
+Try executing this chunk by clicking the Run button within the chunk or by placing your cursor inside it and pressing Ctrl+Shift+Enter.
+
+Add a new chunk by clicking the Insert Chunk button on the toolbar or by pressing Ctrl+Alt+I.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the Preview button or press Ctrl+Shift+K to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike Knit, Preview does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+## Problems
+
+### Problem 1
+
+A clinical trial tests a method designed to increase the probability of conceiving a girl in the study of 628 babies were born, and 314 of the were girls. Use the sample data of construct a 99% confidence interval estimate of the percentage of girls born. Based on the result, does the method appear to be effective?.
+
+```{r}
+p1bar<-314/628
+alpha1<-0.01
+z1<-qnorm(1-alpha1/2, 0, 1)
+lowLim1<-p1bar-z1*sqrt(p1bar*(1-p1bar)/628)
+highLim1<-p1bar+z1*sqrt(p1bar*(1-p1bar)/628)
+sprintf("The lower bound of the confidence interval is: %f", lowLim1)
+sprintf("The higher bound of the confidence interval is: %f", highLim1)
+```
+
+### Problem 2
+
+A genetic experiment with peas resulted in one sample of offspring that consisted of 424 green peas and 168 yellow peas. (a) Construct a 95% confidence interval to estimate of the percentage of yellow peas.
+
+```{r}
+x2<-168
+n2<-168+424
+p2bar<-x2/n2
+alpha2<-1-0.95
+z2<-qnorm(1-alpha2/2, 0, 1)
+lowLim2<-p2bar-z2*sqrt(p2bar*(1-p2bar)/n2)
+highLim2<-p2bar+z2*sqrt(p2bar*(1-p2bar)/n2)
+sprintf("The lower bound of the confidence interval is: %f", lowLim2)
+sprintf("The higher bound of the confidence interval is: %f", highLim2)
+```
+
+(b) It was expected that 25% of the offspring peas would be yellow. Given that the percentage of offspring yellow peas is not 25% do the results contradict expectations?
+
+No. The confidence interval includes 0.25
+
+### Problem 3
+
+In a survey of 3090 adults aged 57 and 85 years it was found that 83.3% of them used at least one prescription medication. Complete the following questions: (a) How many of the 3090 subjects used at least prescription medication?
+
+```{r}
+sprintf("%d of the 3090 adults used at least prescription medication", round(0.833*3090))
+```
+
+(b) Construct a 90% confidence interval estimate of the percentage of adults aged 57 through 85 years who use at least one prescription medication
+
+```{r}
+n3<-3090
+p3bar<-0.833
+alpha3<-1-0.90
+z3<-qnorm(1-alpha3/2, 0, 1)
+lowLim3<-p3bar-z3*sqrt(p3bar*(1-p3bar)/n3)
+highLim3<-p3bar+z3*sqrt(p3bar*(1-p3bar)/n3)
+sprintf("The lower bound of the confidence interval is: %f", lowLim3)
+sprintf("The higher bound of the confidence interval is: %f", highLim3)
+```
+
+### Problem 4
+
+In a study of government financial aid for college students, it becomes necessary to estimate the percentage of full-time college students who earn a bachelor's degree in four years or less. Find the sample size needed to estimate that percentage. Use a 0.05 margin of error and use a confidence level of 99%. Complete questions (a) (a) Assume that nothing is known about the percentage to be estimated
+
+```{r}
+d4<-0.05
+alpha4<-1-0.99
+z4<-qnorm(1-alpha4/2, 0, 1)
+n4<-ceiling(z4^2/(4*d4^2))
+sprintf("The sample size needed is %d", n4)
+```
+
+(b) Assume prior studies have shown that about 45% of full-time students earn bachelor's degrees in four years or less
+
+```{r}
+p4hat=0.45
+d4<-0.05
+alpha4<-1-0.99
+z4<-qnorm(1-alpha4/2, 0, 1)
+n41<-ceiling(z4^2*p4hat*(1-p4hat)/d4^2)
+sprintf("The sample size needed is %d", n41)
+```
+
+Using the additional information from part (b) only slightly reduces the sample size.
+
+### Problem 5
+
+You are the operations manager of an airline and you are considering a higher fare level for passengers in aisle seats. How many randomly selected air passengers must you survey?. Assume that you want to be 99% confident that the sample percentage is within 5.5 percentage points of the true population percentage. Complete parts (a) and (b). (a) Assume that nothing is known about the percentage of passengers who prefer aisle seats.
+
+```{r}
+d5<-5.5/100
+alpha5<-1-0.99
+z5<-qnorm(1-alpha5/2, 0, 1)
+n5<-ceiling(z5^2/(4*d5^2))
+sprintf("The sample size needed is %d", n5)
+```
+
+(b) Assume that a prior survey suggests that about 32% of air passengers prefer aisle seat.
+
+```{r}
+p5hat=0.32
+d5<-5.5/100
+alpha5<-1-0.99
+z5<-qnorm(1-alpha5/2, 0, 1)
+n51<-ceiling(z5^2*p5hat*(1-p5hat)/d5^2)
+sprintf("The sample size needed is %d", n51)
+sprintf("Sample size reduction: %d people", n5-n51)
+```
+
+With the additional information the sample size has been reduced in 71 people.

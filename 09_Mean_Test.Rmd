@@ -1,0 +1,150 @@
+---
+title: "Hypotheis Testing about a Mean (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-02"
+output: html_document
+---
+
+See the [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjP_DC_36B58bcr69WncVQfL) by The Math Sorcerer.
+
+## Introduction
+
+If the standard deviation of the population, $\sigma$, is given, the statistic to be used can be computed as:
+
+$$z=\frac{\bar{X}-\mu}{\sigma/\sqrt{n}}$$
+
+Where $\bar{X}$ is the sample mean, $\mu$, is the expected population mean and $n$ is the sample size. The variable $z$ is distributed N(0, 1).
+
+If the standard deviation of the population is not given, the statistic to be used can be calculated by means the formula:
+
+$$t_{\gamma}=\frac{\bar{X}-\mu}{S/\sqrt{n}}$$
+
+Where $S$ is the standard deviation of the sample. The variable $t_{\gamma}$ is distributed according a Student t with $\gamma=n-1$ degrees of freedom.
+
+Follow this link for [normal](https://www.geeksforgeeks.org/normal-distribution-in-r/) distribution in R. Follow this link for [Student t](https://www.geeksforgeeks.org/understanding-the-t-distribution-in-r/) distribution in R.
+
+## Problems
+
+### Problem 1
+
+A data set about speed dating includes "like" ratings of male dates made by the female dates. The summary statistics are $n=191$, $\bar{X}=6.82$, $S=2.02$. Use a 0.01 significance level to test the claim that the population mean of such ratings is less than 7.00. Assume that a simple random sample has been selected identify the null and the alternate hypothesis, test statistic, p-value, and state the final conclusion that addresses the original claim.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu=7.0$
+-   $H_{1}$: $\mu<7.0$ (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+mu1<-7.0
+X1bar<-6.82
+n1<-191
+S1<-2.02
+t1<-(X1bar-mu1)/(S1/sqrt(n1))
+sprintf("The value of the t statistic is: %f", t1)
+```
+
+3.  Compute the p-value
+
+```{r}
+p1_value<-pt(q = t1, df = n1-1, lower.tail = TRUE)
+sprintf("The p-value of the test is: %f", p1_value)
+```
+
+4.  Make a Decision
+
+p-value is greater than the level of significance (0.01) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 1% of significance level there's not sufficient evidence to support $H_{1}$ (our claim)
+
+### Problem 2
+
+In a test of the effectiveness of garlic for lowering cholesterol, 64 subjects were treated with raw garlic. Cholesterol levels were measured before and after the treatment. The changes (before-after) in their levels of LDL cholesterol (in mg/dL) have a mean of 0.1 and a standard deviation of 1.53. Use a 0.01 significance level to test the claim that with garlic treatment, the mean change in LDL cholesterol is greater than 0. What do the results suggest about the effectiveness of the garlic treatment?. Assume a simple random sample has been selected, identify the null and the alternative hypothesis, test statistic, the p-value and state the final conclusion that addresses the original claim.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu=0.0$
+-   $H_{1}$: $\mu>0.0$ (Right tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+mu2<-0.0
+X2bar<-0.1
+n2<-64
+S2<-1.53
+t2<-(X2bar-mu2)/(S2/sqrt(n2))
+sprintf("The value of the t statistic is: %f", t2)
+```
+
+3.  Compute the p-value
+
+```{r}
+p2_value<-pt(q = t2, df = n2-1, lower.tail = FALSE)
+sprintf("The p-value of the test is: %f", p2_value)
+```
+
+4.  Make a Decision
+
+p-value is greater than the level of significance (0.01) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 1% of significance level there's not sufficient evidence to support $H_{1}$ (our claim). The garlic treatment is useless.
+
+### Problem 3
+
+Listed below are lead concentrations in $\mu g/g$ measured in different traditional medicines. Use a 0.10 significance level to test the claim that the mean lead concentration for all such medicines is less than 16$\mu g/g$.
+
+20, 7.5, 14, 12.5, 16, 4, 17, 13, 12, 14
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu=16$ $\mu g/g$.
+-   $H_{1}$: $\mu<16$ $\mu g/g$. (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+X3<-c(20, 7.5, 14, 12.5, 16, 4, 17, 13, 12, 14)
+mu3<-16
+X3bar<-mean(X3)
+n3<-length(X3)
+S3<-sd(X3)
+t3<-(X3bar-mu3)/(S3/sqrt(n3))
+sprintf("The value of the t statistic is: %f", t3)
+```
+
+3.  Compute the p-value
+
+```{r}
+p3_value<-pt(q = t3, df = n3-1, lower.tail = TRUE)
+sprintf("The p-value of the test is: %f", p3_value)
+```
+
+4.  Make a Decision
+
+p-value is smaller than the level of significance (0.01) then we must reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 10% of significance level there's not evidence to support $H_{1}$ (our claim). The mean concentration of lead in those medicines is less than 16$\mu g/g$.
+
+Extra: Using R
+```{r}
+t.test(X3, mu=mu3, alternative="less")
+```
+
+
+
+
+

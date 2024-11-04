@@ -1,0 +1,724 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Hypothesis Test for a Single Proportion (The Math Sorcerer)},
+  pdfauthor={Luis Cárceles},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Hypothesis Test for a Single Proportion (The Math Sorcerer)}
+\author{Luis Cárceles}
+\date{2024-04-01}
+
+\begin{document}
+\maketitle
+
+See the
+\href{https://www.youtube.com/playlist?list=PLO1y6V1SXjjMIJ7HK2U7qFvoLpnNQfbuF}{YouTube
+play list} by The Math Sorcerer.
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+The statistic to be used in a single proportion test is
+
+\[z=\frac{\hat{p}-p_{0}}{\sqrt{\frac{p_{0}(1-p_{0})}{n}}}\]
+
+where \(\hat{p}\) is the sample proportion, \(p_{0}\) is the expected
+proportion and \(n\) is the sample size.
+
+It turns out that z is distributed N(0,1)
+
+Hypothesis test using R: Let n be the sample size. If \(n\leq30\), we
+use \textbf{\emph{binom.test}}. If \(n>30\) we will use
+\textbf{\emph{prop.test}}
+
+\hypertarget{problems}{%
+\subsection{Problems}\label{problems}}
+
+\hypertarget{problem-1}{%
+\subsubsection{Problem 1}\label{problem-1}}
+
+Suppose 222 subjects are treated with a drug that is used to treat pain
+and 53 of them developed nausea. Use a 0.1 significance level to test
+the claim that more than 20\% of users develop nausea.
+
+Solution:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  State null and alternate Hypothesis:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(H_{0}\): \(p=0.20\)
+\item
+  \(H_{1}\): \(p>0.20\) (Right tailed test)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compute the Test Statistic
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p10}\OtherTok{\textless{}{-}}\FloatTok{0.20}
+\NormalTok{X1}\OtherTok{\textless{}{-}}\DecValTok{53}
+\NormalTok{n1}\OtherTok{\textless{}{-}}\DecValTok{222}
+\NormalTok{p1bar}\OtherTok{\textless{}{-}}\NormalTok{X1}\SpecialCharTok{/}\NormalTok{n1}
+\NormalTok{z1}\OtherTok{\textless{}{-}}\NormalTok{(p1bar}\SpecialCharTok{{-}}\NormalTok{p10)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(p10}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p10)}\SpecialCharTok{/}\NormalTok{n1)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The value of the z statistic is: \%f"}\NormalTok{, z1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The value of the z statistic is: 1.442986"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Compute the p-value
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p1\_value}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(z1, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The p{-}value of the test is: \%f"}\NormalTok{, p1\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The p-value of the test is: 0.074512"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Make a Decision
+\end{enumerate}
+
+p-value is greater than the level of significance (0.1) then we FAIL to
+reject \(H_{0}\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Interpretation of the results
+\end{enumerate}
+
+At the 1\% of significance level there's not sufficient evidence to
+support \(H_{1}\) (our claim)
+
+Extra. Using R for Hypothesis Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{53}\NormalTok{, }\AttributeTok{n=}\DecValTok{222}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.20}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test with continuity correction
+## 
+## data:  53 out of 222, null probability 0.2
+## X-squared = 1.8471, df = 1, p-value = 0.08706
+## alternative hypothesis: true p is greater than 0.2
+## 95 percent confidence interval:
+##  0.1929251 1.0000000
+## sample estimates:
+##         p 
+## 0.2387387
+\end{verbatim}
+
+\hypertarget{problem-2}{%
+\subsubsection{Problem 2}\label{problem-2}}
+
+In a study of cell phone usage and brain hemispheric dominance, an
+internet survey was e-mailed to 6983 subjects randomly selected from an
+online group involved with ears. There were 1317 surveys returned. Use a
+0.01 significance level to test the claim that the return rate is less
+than 20\%. Use the p-value method and use the normal distribution as an
+approximation to the binomial distribution.
+
+Solution:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  State null and alternate Hypothesis:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(H_{0}\): \(p=0.20\)
+\item
+  \(H_{1}\): \(p<0.20\) (Left tailed test)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compute the Test Statistic
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p20}\OtherTok{\textless{}{-}}\FloatTok{0.20}
+\NormalTok{X2}\OtherTok{\textless{}{-}}\DecValTok{1317}
+\NormalTok{n2}\OtherTok{\textless{}{-}}\DecValTok{6983}
+\NormalTok{p2bar}\OtherTok{\textless{}{-}}\NormalTok{X2}\SpecialCharTok{/}\NormalTok{n2}
+\NormalTok{z2}\OtherTok{\textless{}{-}}\NormalTok{(p2bar}\SpecialCharTok{{-}}\NormalTok{p20)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(p20}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p20)}\SpecialCharTok{/}\NormalTok{n2)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The value of the z statistic is: \%f"}\NormalTok{, z2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The value of the z statistic is: -2.381398"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Compute the p-value
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p2\_value}\OtherTok{\textless{}{-}}\FunctionTok{pnorm}\NormalTok{(z2, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The p{-}value of the test is: \%f"}\NormalTok{, p2\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The p-value of the test is: 0.008624"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Make a Decision
+\end{enumerate}
+
+p-value is lower than the level of significance (0.01), then we reject
+\(H_{0}\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Interpretation of the results
+\end{enumerate}
+
+At the 1\% of significance level there's sufficient evidence to support
+\(H_{1}\) (our claim)
+
+Extra. Using R for Hypothesis Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{1317}\NormalTok{, }\AttributeTok{n=}\DecValTok{6983}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.20}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"less"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test with continuity correction
+## 
+## data:  1317 out of 6983, null probability 0.2
+## X-squared = 5.6, df = 1, p-value = 0.00898
+## alternative hypothesis: true p is less than 0.2
+## 95 percent confidence interval:
+##  0.0000000 0.1964937
+## sample estimates:
+##         p 
+## 0.1886009
+\end{verbatim}
+
+\hypertarget{problem-3}{%
+\subsubsection{Problem 3}\label{problem-3}}
+
+Consider a drug testing company that provides a test for marijuana
+usage. Among 321 tested subjects, results from 29 subjects were wrong
+(either a false positive or a false negative). Use a 0.10 significance
+level to test the claim that less than 10 percent of the test results
+are wrong.
+
+Solution:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  State null and alternate Hypothesis:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(H_{0}\): \(p=0.10\)
+\item
+  \(H_{1}\): \(p<0.10\) (Left tailed test)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compute the Test Statistic
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p30}\OtherTok{\textless{}{-}}\FloatTok{0.10}
+\NormalTok{X3}\OtherTok{\textless{}{-}}\DecValTok{29}
+\NormalTok{n3}\OtherTok{\textless{}{-}}\DecValTok{321}
+\NormalTok{p3bar}\OtherTok{\textless{}{-}}\NormalTok{X3}\SpecialCharTok{/}\NormalTok{n3}
+\NormalTok{z3}\OtherTok{\textless{}{-}}\NormalTok{(p3bar}\SpecialCharTok{{-}}\NormalTok{p30)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(p30}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p30)}\SpecialCharTok{/}\NormalTok{n3)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The value of the z statistic is: \%f"}\NormalTok{, z3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The value of the z statistic is: -0.576750"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Compute the p-value
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p3\_value}\OtherTok{\textless{}{-}}\FunctionTok{pnorm}\NormalTok{(z3, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The p{-}value of the test is: \%f"}\NormalTok{, p3\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The p-value of the test is: 0.282054"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Make a Decision
+\end{enumerate}
+
+p-value is lower than the level of significance (0.10), then we FAIL to
+reject \(H_{0}\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Interpretation of the results
+\end{enumerate}
+
+At the 10\% of significance level there's NO sufficient evidence to
+support \(H_{1}\) (our claim)
+
+Extra. Using R for Hypothesis Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{29}\NormalTok{, }\AttributeTok{n=}\DecValTok{321}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.10}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"less"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test with continuity correction
+## 
+## data:  29 out of 321, null probability 0.1
+## X-squared = 0.23399, df = 1, p-value = 0.3143
+## alternative hypothesis: true p is less than 0.1
+## 95 percent confidence interval:
+##  0.0000000 0.1219411
+## sample estimates:
+##          p 
+## 0.09034268
+\end{verbatim}
+
+\hypertarget{problem-4}{%
+\subsubsection{Problem 4}\label{problem-4}}
+
+Trials in an experiment with a polygraph include 97 results that include
+23 cases of wrong results and 74 cases of correct result. Use a 0.05
+significance level to test the claim that such polygraph results are
+correct less than 80\% of the time. Identify the null hypothesis,
+alternative hypothesis, tests statistic, p-value, conclusion about the
+null hypothesis and final conclusion that addresses the original claim.
+Use the p-value method and the normal distribution as an approximation
+of the binomial distribution.
+
+Solution:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  State null and alternate Hypothesis:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(H_{0}\): \(p=0.80\)
+\item
+  \(H_{1}\): \(p<0.80\) (Left tailed test)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compute the Test Statistic
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p40}\OtherTok{\textless{}{-}}\FloatTok{0.80}
+\NormalTok{X4}\OtherTok{\textless{}{-}}\DecValTok{74}
+\NormalTok{n4}\OtherTok{\textless{}{-}}\DecValTok{97}
+\NormalTok{p4bar}\OtherTok{\textless{}{-}}\NormalTok{X4}\SpecialCharTok{/}\NormalTok{n4}
+\NormalTok{z4}\OtherTok{\textless{}{-}}\NormalTok{(p4bar}\SpecialCharTok{{-}}\NormalTok{p40)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(p40}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p40)}\SpecialCharTok{/}\NormalTok{n4)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The value of the z statistic is: \%f"}\NormalTok{, z4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The value of the z statistic is: -0.913812"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Compute the p-value
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p4\_value}\OtherTok{\textless{}{-}}\FunctionTok{pnorm}\NormalTok{(z4, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The p{-}value of the test is: \%f"}\NormalTok{, p4\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The p-value of the test is: 0.180408"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Make a Decision
+\end{enumerate}
+
+p-value is lower than the level of significance (0.05), then we FAIL to
+reject \(H_{0}\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Interpretation of the results
+\end{enumerate}
+
+At the 5\% of significance level there's NO sufficient evidence to
+support \(H_{1}\) (our claim)
+
+Extra. Using R for Hypothesis Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{74}\NormalTok{, }\AttributeTok{n=}\DecValTok{97}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.80}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"less"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test with continuity correction
+## 
+## data:  74 out of 97, null probability 0.8
+## X-squared = 0.6192, df = 1, p-value = 0.2157
+## alternative hypothesis: true p is less than 0.8
+## 95 percent confidence interval:
+##  0.0000000 0.8306761
+## sample estimates:
+##         p 
+## 0.7628866
+\end{verbatim}
+
+\hypertarget{problem-5}{%
+\subsubsection{Problem 5}\label{problem-5}}
+
+Consider a sample of 52 football games, where 31 of them were won by the
+home team. Use a 0.10 significance level to test the claim that the
+probability that he home team wins is greater than one-half
+
+Solution:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  State null and alternate Hypothesis:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  \(H_{0}\): \(p=0.50\)
+\item
+  \(H_{1}\): \(p>0.50\) (Right tailed test)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Compute the Test Statistic
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p50}\OtherTok{\textless{}{-}}\FloatTok{0.50}
+\NormalTok{X5}\OtherTok{\textless{}{-}}\DecValTok{31}
+\NormalTok{n5}\OtherTok{\textless{}{-}}\DecValTok{52}
+\NormalTok{p5bar}\OtherTok{\textless{}{-}}\NormalTok{X5}\SpecialCharTok{/}\NormalTok{n5}
+\NormalTok{z5}\OtherTok{\textless{}{-}}\NormalTok{(p5bar}\SpecialCharTok{{-}}\NormalTok{p50)}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(p50}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{p50)}\SpecialCharTok{/}\NormalTok{n5)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The value of the z statistic is: \%f"}\NormalTok{, z5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The value of the z statistic is: 1.386750"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Compute the p-value
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p5\_value}\OtherTok{\textless{}{-}}\DecValTok{1}\SpecialCharTok{{-}}\FunctionTok{pnorm}\NormalTok{(z5, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+\FunctionTok{sprintf}\NormalTok{(}\StringTok{"The p{-}value of the test is: \%f"}\NormalTok{, p5\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "The p-value of the test is: 0.082759"
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  Make a Decision
+\end{enumerate}
+
+p-value is lower than the level of significance (0.1) then we must
+reject \(H_{0}\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Interpretation of the results
+\end{enumerate}
+
+At the 10\% of significance level there are sufficient evidence to
+support \(H_{1}\) (our claim)
+
+Extra. Using R for Hypothesis Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{prop.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{31}\NormalTok{, }\AttributeTok{n=}\DecValTok{52}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.50}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1-sample proportions test with continuity correction
+## 
+## data:  31 out of 52, null probability 0.5
+## X-squared = 1.5577, df = 1, p-value = 0.106
+## alternative hypothesis: true p is greater than 0.5
+## 95 percent confidence interval:
+##  0.472659 1.000000
+## sample estimates:
+##         p 
+## 0.5961538
+\end{verbatim}
+
+In this case the p-value supplied by prop.test function is slightly
+greater than the significance level required. This is because it is
+using a different test statistic (x-squared). The same happens with the
+binom.test function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{binom.test}\NormalTok{(}\AttributeTok{x=}\DecValTok{31}\NormalTok{, }\AttributeTok{n=}\DecValTok{52}\NormalTok{, }\AttributeTok{p=}\FloatTok{0.50}\NormalTok{, }\AttributeTok{alternative=}\StringTok{"greater"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Exact binomial test
+## 
+## data:  31 and 52
+## number of successes = 31, number of trials = 52, p-value = 0.1058
+## alternative hypothesis: true probability of success is greater than 0.5
+## 95 percent confidence interval:
+##  0.4726687 1.0000000
+## sample estimates:
+## probability of success 
+##              0.5961538
+\end{verbatim}
+
+\end{document}

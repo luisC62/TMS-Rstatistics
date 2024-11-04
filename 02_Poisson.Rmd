@@ -1,0 +1,84 @@
+---
+title: "Poisson distribution (The Math Sorcerer)"
+author: "Luis Cárceles"
+output: html_document
+date: "2024-03-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+The [Math Sorcerer Youbube video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjMDpDGVgU4YEFsLUjptpVDC)
+
+See also the information about [Poisson distribution and R Programming](https://www.geeksforgeeks.org/poisson-functions-in-r-programming/)
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Problems
+
+### Problem 1
+
+Last year, a person wrote 122checks. Let the random variable x reprsent the number of checks he worte in one day, and it has a Poisson distribution. What is the mean number of checks written per day?. What is the standard deviation? What is the variance?
+
+```{r}
+mu_=122/365
+sd=sqrt(mu_)
+va=sd^2
+sprintf("Mean: %f", mu_)
+sprintf("Standard deviation: %f", sd)
+sprintf("Variance: %f", va)
+
+```
+
+### Problem 2
+
+In a recent year, a hospital reported 4467 births. Find the mean number of births per day, then use that result and the Poisson distribution to find the probability that in a day, there are exactly 15 births.
+
+```{r}
+lamda=4467/365
+p15<-dpois(15, lamda)
+sprintf("The mean number of births is: %f", lamda)
+sprintf("The probability of exactly 15 births is: %f", p15)
+
+```
+
+### Problem 3
+
+In a recent year, an author wrote 173 checks. Use the Poisson distribution to find the probability that, on a randomly selected day, he wrote at least one check
+
+```{r}
+lamda2=173/365
+p_more1<-1-dpois(0, lamda2)
+sprintf("Probatility of at least 1 check witten: %f", p_more1)
+
+```
+
+Print a graph of this distribution
+
+```{r}
+x <- seq(0, 5, by = 1) 
+y <- dpois(x, lamda2) 
+plot(x, y, type = 'h') 
+
+```
+
+Print a graph of the cumulative Poisson distribution
+
+```{r}
+x <- seq(0, 5, by = 1) 
+y <- ppois(x, lamda2) 
+plot(x, y, type = 'h') 
+```

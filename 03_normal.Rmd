@@ -1,0 +1,152 @@
+---
+title: "Normal distribution (The Math Sorcerer)"
+author: "Luis Cárceles"
+output: html_document
+date: "2024-03-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+The [Math Sorcerer YouTube video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjOGMSp8-6PYaboAWdNsoDNm)
+
+See also the information about [Normal distribution and R Programming](https://www.geeksforgeeks.org/normal-distribution-in-r/?ref=lbp)
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Problems
+
+### Problem 1
+
+Assume a normal standard distribution for the random variable x. Find the probability that x is greather or equal than -1.18
+
+```{r}
+# Use p for cumulative distribution
+p1<-1-pnorm(-1.18, 0, 1)
+sprintf("the probability of x>=-1.18 is: %f", p1)
+```
+
+### Problem 2
+
+Assume a normal standard distribution for the random variable x. Find the probability that the value of x lies between 1.27 and -0.98.
+
+```{r}
+p2<-pnorm(1.27, 0, 1)-pnorm(-0.98, 0, 1)
+sprintf("the probability of -098<x<1.27 is: %f", p2)
+```
+
+### Problem 3
+
+Assume a normal standard distribution for the random variable x. For which value the probability of being less is 0.2206?
+
+```{r}
+# qnorm is useful to find percentiles
+x3<-qnorm(0.2206, 0, 1)
+sprintf("the value is: %f", x3)
+```
+
+### Problem 4
+
+Assume a normal standard distribution for the random variable x. For which value the area on the right is 0.9251?
+
+```{r}
+# qnorm is useful to find percentiles
+x4<-qnorm(1-0.9251, 0, 1)
+sprintf("the value is: %f", x4)
+```
+
+## Real applications of normal distribution
+
+### Application 1
+
+The IQ scores of adults is distributed according a normal shape, with mean 100 and standard deviation of 15. Which is the probability that a randomly picked IQ be greater than 90?
+
+```{r}
+# Use p for cumulative distribution
+a1<-1-pnorm(90, 100, 15)
+sprintf("the probability of IQ>=90 is: %f", a1)
+```
+
+### Application 2
+
+With the same distribution as in application 1, which is the probability that a randomly selected IQ lies between 106 and 126?
+
+```{r}
+a2<-pnorm(126, 100, 15)-pnorm(106, 100, 15)
+sprintf("the probability of 106<IQ<126 is: %f", a2)
+```
+
+### Application 3
+
+With the same distribution as in previous application, which is the IQ whose probability of to find any other higher value is 0.3446?
+
+```{r}
+# qnorm is useful to find percentiles
+a3<-qnorm(1-0.3446, 100, 15)
+sprintf("the value is: %f", a3)
+```
+
+### Application 4
+
+The IQ scores of adults is distributed according a normal shape, with mean 97.3 and standard deviation of 19.3. Find the probability of a randomly selected IQ be higher than 129.4.
+
+```{r}
+a4<-1-pnorm(129.4, 97.3, 19.3)
+sprintf("of IQ>129.4 is: %f", a4)
+```
+
+### Application 5
+
+Engineers want to design seats in commercial aircraft so that they are wide enough to fit 90% of all males (Accommodating 100% of males would require very wide seats tat would be much too expensive). Men have hip breadths that are normally distributed with a mean of 14.2 in and a standard deviation of 1.1 in. Find the width of the seat.
+
+```{r}
+# qnorm is useful to find percentiles
+x5<-qnorm(0.9, 14.2, 1.1)
+sprintf("the widht of the seat is: %f in", x5)
+```
+
+### Application 6
+
+The IQ scores of adults is distributed according a normal shape, with mean 95.5 and standard deviation of 19. Find the first quartile Q1 (separating the bottom 25%)
+
+```{r}
+# qnorm is useful to find percentiles
+x6<-qnorm(0.25, 95.5, 19)
+sprintf("the first quartile, Q1, is: %f", x6)
+```
+
+### Application 7
+
+Assume that military aircraft use ejection seats designed for men weighing between 141.4 lb and 220 lb. If women's weights are normally distributed with a mean of 171.4 lb and a standard deviation of 46.9 lb, what is the percentage of women that are within those limits? Are many women excluded with those specifications?
+
+```{r}
+a7<-pnorm(220, 171.4, 46.9)-pnorm(141.4, 171.4, 46.9)
+e7=1-a7
+sprintf("%f%% of women can use the ejection seats", a7*100)
+sprintf("%f%% are excluded", e7*100)
+
+```
+
+### Application 8
+
+The lengths of pregnancies are normally distributed with a mean of 269 days and a standard deviation of 15 days. (a) Find the probability of a pregnancy lasting 309 days or longer. (b) If the length of pregnancy is the lowest 2% then the baby is premature. Find the length that separates premature babies from those who are not premature
+
+```{r}
+a8<-1-pnorm(309, 269, 15)
+x8<-qnorm(0.02, 269, 15)
+sprintf("(a): The probability that pregnancy lasts 309 days or longer is: %f", a8)
+sprintf("(b): Below a length of pregnancy of %f days, the baby can be considered premature", x8)
+```

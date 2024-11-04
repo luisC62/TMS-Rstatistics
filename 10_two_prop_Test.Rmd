@@ -1,0 +1,160 @@
+---
+title: "Hypothesis Test about two proportions (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-03"
+output: html_document
+---
+
+See The [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjM_Ia_LgNpJ38z6rpsyJV6A) by the Math Sorcerer.
+
+## Introduction
+
+### Hypothesis test to compare two proportions
+
+To build our hypothesis test we consider three different cases
+
+I: Left tailed test:
+
+-   $H_{0}$: $p_{1}=p_{2}$
+
+-   $H_{1}$: $p_{1}<p_{2}$
+
+II: Right tailed test:
+
+-   $H_{0}$: $p_{1}=p_{2}$
+
+-   $H_{1}$: $p_{1}>p_{2}$
+
+III: Two tailed test:
+
+-   $H_{0}$: $p_{1}=p_{2}$
+
+-   $H_{1}$: $p_{1}\ne p_{2}$
+
+To build the statistic we first compute the ***grouped p estimator*** using the formula:
+
+$$\hat{p}=\frac{n_{1}\hat{p_{1}}+n_{2}\hat{p_{2}}}{n_{1}+n_{2}}$$
+
+Where $\hat{p_{1}}=X_{1}/n_{1}$ and $\hat{p_{2}}=X_{2}/n_{2}$
+
+The statistic is then:
+
+$$z=\frac{\hat{p_{1}}-\hat{p_{2}}}{\sqrt{\hat{p}(1-\hat{p})(1/n_{1}+1/n_{2})}}$$ The distribution of the random variable $z$ is the standard normal.
+
+### Confidence interval for the difference of the two proportions
+
+To compute bounds of the $1-\alpha$ confidence interval we use the following formula:
+
+$$\hat{p_{1}}-\hat{p_{2}}\pm z_{\alpha/2} \sqrt{\hat{p_{1}}(1-\hat{p_{1}})/n_{1}+\hat{p_{2}}(1-\hat{p_{2}})/n_{2}}$$ where, again, $z$ is distributed standard normal.
+
+## Problems
+
+### Problem 1
+
+In a study or treatments for very painful "cluster" headaches, 140 patients were treated with oxygen and 144 other patients were given a placebo consisting of ordinary air. Among the 140 patients in the oxygen treatment group, 122 were free from headaches 15minutes after treatment. Among the 144 patients given the placebo, 39 were free from headaches 15 minutes after treatment. (a) Use a 0.05 significance level to test the claim that the oxygen treatment is effective. (b) Construct a 90% confidence interval for the proportion difference
+
+Solution:
+
+(a) 
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p_{1}=p_{2}$
+-   $H_{1}$: $p_{1}>p_{2}$ (Right tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+X1<-122
+n1<-140
+X2<-39
+n2<-144
+p1hat<-X1/n1
+p2hat<-X2/n2
+pghat<-(n1*p1hat+n2*p2hat)/(n1+n2)
+z<-(p1hat-p2hat)/sqrt(pghat*(1-pghat)*(1/n1 + 1/n2))
+sprintf("The value of the z statistic is: %f", z)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value=1-pnorm(z, 0, 1)
+sprintf("The p-value is: %f", p_value)
+```
+
+4.  Make a Decision
+
+p-value is smaller than the level of significance (0.05) then we must reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's sufficient evidence to support $H_{1}$ (our claim). The treatment with oxygen is effective .
+
+(b) To construct the 90% confidence interval
+
+```{r}
+alpha<-1-0.9
+zci<-qnorm(1-alpha/2, 0, 1)
+highLimit<-(p1hat-p2hat)+zci*sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+lowLimit<-(p1hat-p2hat)-zci*sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+sprintf("Low limit of the interval: %f", lowLimit)
+sprintf("High limit of the interval: %f", highLimit)
+```
+
+Since the confidence level does not contain 0, the result agrees our hypothesis test. The difference between the two proportions is always positive.
+
+### Problem 2
+
+In a random sample of males, it was found that 25 write with their left hands and 217 do not. In a random sample of females, it was found that 69 write with their left hands and 453 do not. 
+(a)Use a 0.05 significance level to test the claim that the rate of left-handedness among males is less than that among females.
+(b)Construct the 90% confidence level for the difference of the rates.
+
+Solution:
+
+(1)Hypothesis Test
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p_{1}=p_{2}$
+-   $H_{1}$: $p_{1}<p_{2}$ (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+X1<-25
+n1<-25+217
+X2<-69
+n2<-69+453
+p1hat<-X1/n1
+p2hat<-X2/n2
+pghat<-(n1*p1hat+n2*p2hat)/(n1+n2)
+z<-(p1hat-p2hat)/sqrt(pghat*(1-pghat)*(1/n1 + 1/n2))
+sprintf("The value of the z statistic is: %f", z)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value=pnorm(z, 0, 1)
+sprintf("The p-value is: %f", p_value)
+```
+
+4.  Make a Decision
+
+p-value is greater than the level of significance (0.05) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's NOT sufficient evidence to support $H_{1}$ (our claim). We can not say that there hare more left handed people among males than among females.
+
+(b)90% Confidence level
+```{r}
+alpha<-1-0.9
+zci<-qnorm(1-alpha/2, 0, 1)
+highLimit<-(p1hat-p2hat)+zci*sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+lowLimit<-(p1hat-p2hat)-zci*sqrt(p1hat*(1-p1hat)/n1 + p2hat*(1-p2hat)/n2)
+sprintf("Low limit of the interval: %f", lowLimit)
+sprintf("High limit of the interval: %f", highLimit)
+```
+Since 0 is included in the interval, the difference can be positive or negative. Again, but according the confidence level, we can not say that there hare more left handed people among males than among females.

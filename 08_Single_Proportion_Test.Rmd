@@ -1,0 +1,245 @@
+---
+title: "Hypothesis Test for a Single Proportion (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-01"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+See the [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjMIJ7HK2U7qFvoLpnNQfbuF) by The Math Sorcerer.
+
+## Introduction
+
+The statistic to be used in a single proportion test is
+
+$$z=\frac{\hat{p}-p_{0}}{\sqrt{\frac{p_{0}(1-p_{0})}{n}}}$$
+
+where $\hat{p}$ is the sample proportion, $p_{0}$ is the expected proportion and $n$ is the sample size.
+
+It turns out that z is distributed N(0,1)
+
+Hypothesis test using R: Let n be the sample size. If $n\leq30$, we use ***binom.test***. If $n>30$ we will use ***prop.test***
+
+## Problems
+
+### Problem 1
+
+Suppose 222 subjects are treated with a drug that is used to treat pain and 53 of them developed nausea. Use a 0.01 significance level to test the claim that more than 20% of users develop nausea.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p=0.20$
+-   $H_{1}$: $p>0.20$ (Right tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+p10<-0.20
+X1<-53
+n1<-222
+p1bar<-X1/n1
+z1<-(p1bar-p10)/sqrt(p10*(1-p10)/n1)
+sprintf("The value of the z statistic is: %f", z1)
+```
+
+3.  Compute the p-value
+
+```{r}
+p1_value<-1-pnorm(z1, 0, 1)
+sprintf("The p-value of the test is: %f", p1_value)
+```
+
+4.  Make a Decision
+
+p-value is greater than the level of significance (0.01) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 1% of significance level there's not sufficient evidence to support $H_{1}$ (our claim)
+
+Extra. Using R for Hypothesis Test
+
+```{r}
+prop.test(x=53, n=222, p=0.20, alternative="greater")
+```
+
+### Problem 2
+
+In a study of cell phone usage and brain hemispheric dominance, an internet survey was e-mailed to 6983 subjects randomly selected from an online group involved with ears. There were 1317 surveys returned. Use a 0.01 significance level to test the claim that the return rate is less than 20%. Use the p-value method and use the normal distribution as an approximation to the binomial distribution.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p=0.20$
+-   $H_{1}$: $p<0.20$ (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+p20<-0.20
+X2<-1317
+n2<-6983
+p2bar<-X2/n2
+z2<-(p2bar-p20)/sqrt(p20*(1-p20)/n2)
+sprintf("The value of the z statistic is: %f", z2)
+```
+
+3.  Compute the p-value
+
+```{r}
+p2_value<-pnorm(z2, 0, 1)
+sprintf("The p-value of the test is: %f", p2_value)
+```
+
+4.  Make a Decision
+
+p-value is lower than the level of significance (0.01), then we reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 1% of significance level there's sufficient evidence to support $H_{1}$ (our claim)
+
+Extra. Using R for Hypothesis Test
+
+```{r}
+prop.test(x=1317, n=6983, p=0.20, alternative="less")
+```
+
+### Problem 3
+
+Consider a drug testing company that provides a test for marijuana usage. Among 321 tested subjects, results from 29 subjects were wrong (either a false positive or a false negative). Use a 0.10 significance level to test the claim that less than 10 percent of the test results are wrong.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p=0.10$
+-   $H_{1}$: $p<0.10$ (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+p30<-0.10
+X3<-29
+n3<-321
+p3bar<-X3/n3
+z3<-(p3bar-p30)/sqrt(p30*(1-p30)/n3)
+sprintf("The value of the z statistic is: %f", z3)
+```
+
+3.  Compute the p-value
+
+```{r}
+p3_value<-pnorm(z3, 0, 1)
+sprintf("The p-value of the test is: %f", p3_value)
+```
+
+4.  Make a Decision
+
+p-value is lower than the level of significance (0.10), then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 10% of significance level there's NO sufficient evidence to support $H_{1}$ (our claim)
+
+Extra. Using R for Hypothesis Test
+
+```{r}
+prop.test(x=29, n=321, p=0.10, alternative="less")
+```
+
+### Problem 4
+
+Trials in an experiment with a polygraph include 97 results that include 23 cases of wrong results and 74 cases of correct result. Use a 0.05 significance level to test the claim that such polygraph results are correct less than 80% of the time. Identify the null hypothesis, alternative hypothesis, tests statistic, p-value, conclusion about the null hypothesis and final conclusion that addresses the original claim. Use the p-value method and the normal distribution as an approximation of the binomial distribution.
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p=0.80$
+-   $H_{1}$: $p<0.80$ (Left tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+p40<-0.80
+X4<-74
+n4<-97
+p4bar<-X4/n4
+z4<-(p4bar-p40)/sqrt(p40*(1-p40)/n4)
+sprintf("The value of the z statistic is: %f", z4)
+```
+
+3.  Compute the p-value
+
+```{r}
+p4_value<-pnorm(z4, 0, 1)
+sprintf("The p-value of the test is: %f", p4_value)
+```
+
+4.  Make a Decision
+
+p-value is lower than the level of significance (0.05), then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's NO sufficient evidence to support $H_{1}$ (our claim)
+
+Extra. Using R for Hypothesis Test
+
+```{r}
+prop.test(x=74, n=97, p=0.80, alternative="less")
+```
+
+### Problem 5
+
+Consider a sample of 52 football games, where 31 of them were won by the home team. Use a 0.10 significance level to test the claim that the probability that he home team wins is greater than one-half
+
+Solution:
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $p=0.50$
+-   $H_{1}$: $p>0.50$ (Right tailed test)
+
+2.  Compute the Test Statistic
+
+```{r}
+p50<-0.50
+X5<-31
+n5<-52
+p5bar<-X5/n5
+z5<-(p5bar-p50)/sqrt(p50*(1-p50)/n5)
+sprintf("The value of the z statistic is: %f", z5)
+```
+
+3.  Compute the p-value
+
+```{r}
+p5_value<-1-pnorm(z5, 0, 1)
+sprintf("The p-value of the test is: %f", p5_value)
+```
+
+4.  Make a Decision
+
+p-value is lower than the level of significance (0.1) then we must reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 10% of significance level there are sufficient evidence to support $H_{1}$ (our claim)
+
+Extra. Using R for Hypothesis Test
+
+```{r}
+prop.test(x=31, n=52, p=0.50, alternative="greater")
+```
+
+In this case the p-value supplied by prop.test function is slightly greater than the significance level required. This is because it is using a different test statistic (x-squared). The same happens with the binom.test function
+
+```{r}
+binom.test(x=31, n=52, p=0.50, alternative="greater")
+```

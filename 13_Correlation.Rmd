@@ -1,0 +1,165 @@
+---
+title: "Correlation (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-05"
+output: html_document
+---
+
+See The [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjMelPvG5nKrqUt2aPr84Ryx) by the Math Sorcerer
+
+## Introduction
+
+Correlation coefficient estimation (Pearson):
+
+$$\hat{\rho}=R=\frac{S_{xy}}{\sqrt{S_{xx}S_{yy}}} $$
+
+Where: $S_{xx}=\sum_{i=1}^n(x_i-\bar{x})^2$, $S_{yy}=\sum_{i=1}^n(y_i-\bar{y})^2$ y $S_{xy}=\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})$.
+
+### Hypothesis test for correlation coefficient
+
+For the hypothesis test about the correlation we use the statistic:
+
+$$T_{n-2}=\frac{R\sqrt{n-2}}{\sqrt{1-R^2}}$$
+
+Where $R$ is the estimated correlation coefficient, obtained with the above formula and $n$ is the number of points. The distribution of $T_{n-2}$ is Student T with $n-2$ degrees of freedom.
+
+### Confidence Interval.
+
+The confidence interval $100(1-\alpha)$% for $\rho$ can be computed with the following equations:
+
+$$Lower\ Limit=\frac{(1+R)-(1-R)exp(2z_{\alpha /2}\sqrt{n-3})}{(1+R)+(1-R)exp(2z_{\alpha /2}\sqrt{n-3})}$$
+
+$$Upper\ Limit=\frac{(1+R)-(1-R)exp(-2z_{\alpha /2}\sqrt{n-3})}{(1+R)+(1-R)exp(-2z_{\alpha /2}\sqrt{n-3})}$$ Where $R$ is the estimated correlation coefficient ($\hat{\rho}$), $n$ is the number of points and $z$ is a random variable distributed standard normal.
+
+## Problems
+
+### Problem 1
+
+Use the given data set to complete parts (a) through (C). (Use $\alpha=0.05$)
+
+x: 10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5
+
+Y: 9.13, 8.15, 8.73, 8.77, 9.27, 8.11, 6.14, 3.09, 9.14, 7.26, 4.75
+
+Solution
+
+(a) Plot the y versus x scatterplot:
+
+```{r}
+X<-c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5)
+Y<-c(9.13, 8.15, 8.73, 8.77, 9.27, 8.11, 6.14, 3.09, 9.14, 7.26, 4.75)
+plot(X,Y)
+```
+
+(b) Compute the linear correlation coefficient:
+
+```{r}
+Sxx<-sum((X-mean(X))^2)
+Syy<-sum((Y-mean(Y))^2)
+Sxy<-sum((X-mean(X))*(Y-mean(Y)))
+R<-Sxy/sqrt(Sxx*Syy)
+n<-length(X)
+sprintf("The linear correlation coefficient is: %f", R)
+```
+
+The correlation can also be calculated using the built-in function cor():
+
+```{r}
+sprintf("Using the R built-in fuction: %f", cor(X,Y))
+```
+
+Determine whether there is sufficient evidence to support the claim of a linear correlation between the two variables:
+
+Hypothesis Test:
+
+-   $H_{0}$: $\rho=0$
+
+-   $H_{1}$: $\rho\ne0$
+
+Computing the statistic:
+
+```{r}
+t<-R*sqrt(n-2)/sqrt(1-R^2)
+sprintf("The statistic value is: %f", t)
+```
+
+For this statistic, the p-value is:
+
+```{r}
+p_value<-2*pt(q = t, df = n-2 , lower.tail = FALSE)
+sprintf("The p-value for the estatistic t is : %f", p_value)
+```
+
+At, for example, 1% significance level, the hypothesis $H_{0}$ must be rejected. This means that there is sufficient evidence to support the alternative hypothesis and we can say that the values X and Y are correlated. Remember that we are talking about a ***linear*** relationship.
+
+Construct the 95% confidence interval for R:
+
+```{r}
+alpha<-1-0.95
+z<-qnorm(alpha/2, 0, 1, lower.tail=FALSE)
+lowLimit<-((1+R)-(1-R)*exp(2*z/sqrt(n-3)))/((1+R)+(1-R)*exp(2*z/sqrt(n-3)))
+highLimit<-((1+R)-(1-R)*exp(-2*z/sqrt(n-3)))/((1+R)+(1-R)*exp(-2*z/sqrt(n-3)))
+sprintf("The lower limit of the confidence interval is: %f", lowLimit)
+sprintf("The upper linut if the confidence interval is: %f", highLimit)
+```
+
+All we have don so far can be done with the built-in function cor.test():
+
+
+```{r}
+cor.test(X,Y)
+```
+
+To explore the attributes of this new function:
+
+
+```{r}
+attributes(cor.test(X,Y))
+```
+
+### Problem 2
+
+Use the given data set to complete parts (a) through (C). (Use $\alpha=0.05$)
+
+x: 10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5
+
+Y: 7.45, 6.77, 12.73, 7.11, 7.82, 8.84, 6.07, 5.39, 8.14, 6.41, 5.73
+
+Solution:
+
+(a) Construct a scatterplot.
+
+```{r}
+X<-c(10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5)
+Y<-c(7.45, 6.77, 12.73, 7.11, 7.82, 8.84, 6.07, 5.39, 8.14, 6.41, 5.73)
+plot(X,Y)
+```
+
+
+(b): Compute the linear correlation coefficient: In this case se just use the R built-in function cor().
+
+```{r}
+R<-cor(X,Y)
+sprintf("The linear correlation coefficient is: %f", R)
+```
+
+(c): Determine whether there is sufficient evidence to support the claim of a linear correlation between the two variables.
+
+```{r}
+cortest<-cor.test(X,Y)
+sprintf("The linear correlation coefficient is: %f", cortest$estimate)
+sprintf("The value of the statistic in the test is: %f", cortest$statistic)
+sprintf("The p-value of that statistic in the test is: %f", cortest$p.value)
+```
+
+As in problem 1, we must reject $H_{0}$ and admit that there is sufficient evidence to support the alternative hypothesis which is that the two variables are linear correlated.
+
+
+the 95% confidence interval is:
+
+```{r}
+sprintf("The lower limit of the confidence interval is: %f", cortest$conf.int[1])
+sprintf("The upper linut if the confidence interval is: %f", cortest$conf.int[2])
+```
+
+

@@ -1,0 +1,134 @@
+---
+title: "Hypothesis Testing (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-01"
+output: html_document
+---
+
+## Introduction
+
+Hypothesis Testing is simply answer questions about a population given a sample of that. See more about general hypothesis testing in the play list by [The Math sorcerer](https://www.youtube.com/playlist?list=PLO1y6V1SXjjMIJ7HK2U7qFvoLpnNQfbuF)
+
+### Null Hypothesis $H_{0}$
+
+It is always a statement of equality. For example $\mu=100$.
+
+### Alternate Hypothesis $H_{1}$ or $H_{A}$
+
+Most of the time will be the actual claim. There are three cases (Examples):
+
+1: Left tailed test: $H_{1}$: $\mu<100$.
+
+2: Right tailed test: $H_{1}$: $\mu>100$.
+
+3: Two tailed test: $H_{1}$: $\mu\neq100$.
+
+### Test Statistic
+
+It is going to be computed (using R or another software)
+
+### p-value
+
+It is going to be computed from the test statistic
+
+### Level of significance $\alpha$
+
+This is the probability to make a mistake (Reject $H_{0}$ when in fact it is true)
+
+### Decision Making (Important)
+
+-   If $p-value\leq\alpha$, then Reject $H_{0}$
+-   If $p-value>\alpha$, then ***Fail*** to Reject $H_{0}$
+
+### Steps for Hypothesis Testing
+
+1.  State $H_{0}$ and $H_{1}$
+2.  Compute the test statistic
+3.  Compute the p-value
+4.  Make a Decision: Reject $H_{0}$ or Fail to Reject $H_{0}$.
+5.  Interpretation of the results
+
+## How to Set Up the Null and Alternate Hypothesis
+
+### Strong and Weak inequalities
+
+-   Strong Inequalities: \>, \<, $\neq$
+-   Weak Inequalities: $\geq$, $\leq$, =
+
+Alternative hypothesis, $H_{1}$, is formulated with a strong inequality. Null hypothesis, $H_{o}$, is always formulated with the equal symbol, =
+
+### Example 1
+
+Claim: More than 70% of kids like chocolate.
+
+-   Null Hypothesis: $H_{0}$: $p=0.7$
+
+-   Alternate Hypothesis: $H_{1}$: $p>0.7$
+
+### Example 2
+
+Claim: The mean weight of all kangaroos is less than 200 pounds
+
+-   Null Hypothesis: $H_{0}$: $\mu=200$
+
+-   Alternate Hypothesis: $H_{1}$: $\mu<200$
+
+### Example 3
+
+Claim: The proportion of smokers is at least 80%
+
+-   Null Hypothesis: $H_{0}$: $p=0.8$
+
+-   Alternate Hypothesis: $H_{1}$: $p>0.8$ !!! (alternative is the opposite of the claim)
+
+### Example 4
+
+Claim: The percentage of Dolphins in adulthood is 75%.
+
+-   Null Hypothesis: $H_{0}$: $p=0.75$
+
+-   Alternate Hypothesis: $H_{1}$: $p\neq0.75$ !!!! (alternative is the opposite of the claim)
+
+## Determine the Conclusion of the Hypothesis Test using the p-value
+
+-   If the $p-value\leq\alpha$, then Reject $H_{0}$
+
+-   If the $p-value>\alpha$, then Fail to Reject $H_{0}$
+
+### Example 1
+
+-   Null Hypothesis: $H_{0}$: $\mu=100$
+
+-   Alternate Hypothesis: $H_{1}$: $\mu<100$
+
+Lets say that $\alpha=0.05$ and $p-value=0.023$, then we Reject $H_{0}$. We can say: At the 5% of significance there is a sufficient evidence that mean is less than 100
+
+### Example 2
+
+-   Null Hypothesis: $H_{0}$: $p=.80$
+
+-   Alternate Hypothesis: $H_{1}$: $p\neq0.80$
+
+Lets say that $\alpha=0.01$ and $p-value=0.24$. In this case we Fail to Reject $H_{0}$. We don't have evidence to say that $H_{1}$ is true.
+
+## How tho Determine a Conclusion of a Hypothesis Test
+
+-   If the $p-value\leq\alpha$, then Reject $H_{0}$
+
+-   If the $p-value>\alpha$, then Fail to Reject $H_{0}$
+
+### Example 1
+
+-   Null Hypothesis: $H_{0}$: $\mu=50$
+
+-   Alternate Hypothesis: $H_{1}$: $\mu<50$
+
+Our $\alpha=0.05$ and $p-value=0.02$. In this case we reject $H_{0}$, so there is enough evidence to support $H_{1}$
+
+### Example 2
+
+-   Null Hypothesis: $H_{0}$: $\mu=75$
+
+-   Alternate Hypothesis: $H_{1}$: $\mu>75$
+
+Our $\alpha=0.05$ and $p-value=0.24$. In this case we fail to reject $H_{0}$. We have not enough evidence to support $H_{1}$.

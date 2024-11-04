@@ -1,0 +1,216 @@
+---
+title: "Regression (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-09"
+output: html_document
+---
+
+See The [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjNzyx0pl5M0O_rVMlHN0ZZ0) by the Math Sorcerer
+
+## Introduction
+
+Linear model: The relation between the two variables, $Y$ and $X$, is described by a linear equation.
+
+$$Y_{i}=\beta_{0}+\beta_{1}X_{i}+E_{i}$$
+
+$\beta_{0}$ is called ***Intercept*** and $\beta_{1}$ is called the ***slope***. $E_{i}$ is a random variable with distribution $N(0,\sigma^2)$
+
+The least square estimators of the coefficients $\beta_{0}$ and $\beta_{1}$ are:
+
+$$B_{1}=\hat{\beta_{1}}=\frac{n\sum_{i=1}^nX_{i}Y_{i}-(\sum_{i=1}^nX_{i})(\sum_{i=1}^nY_{i})}{n\sum_{i=1}^nX_{i}^2-(\sum_{i=1}^nX_{i})^2}$$
+
+$$B_{0}=\hat{\beta_{0}}=\bar{Y}-B_{1}\bar{X}$$
+
+### Hypothesis Test about $\beta_{1}$ and $\beta_{0}$
+
+First, we build the hypothesis test for $\beta_{1}$
+
+To build our hypothesis test we consider three different cases
+
+I: Left tailed test:
+
+-   $H_{0}$: $\beta_{1}=0$
+
+-   $H_{1}$: $\beta_{1}<0$
+
+II: Right tailed test:
+
+-   $H_{0}$: $\beta_{1}=0$
+
+-   $H_{1}$: $\beta_{1}>0$
+
+III: Two tailed test:
+
+-   $H_{0}$: $\beta_{1}=0$
+
+-   $H_{1}$: $\beta_{1}\ne0$
+
+The statistic to be used is:
+
+$$T_{n-2}=\frac{B_{1}}{S/\sqrt{S_{xx}}}$$
+
+Where $B_{1}$ is the estimation of the slope, $S_{xx}=\sum_{i=1}^n(X_{i}-\bar{X})^2$ and $T_{n-2}$ is a random variable that has a Student T distribution with $n-2$ degrees of freedom. $S$ is an unbiased estimator of $\sigma^2$, which is the population standard deviation of $Y$ and can be computed as:
+
+$$S^2=\frac{SSE}{n-2}=\frac{\sum_{i=1}^n(Y_{i-B_{0}-B_{1}X_{i}})^2}{n-2}$$
+
+$SSE$ is denoted as the sum of square errors.
+
+Now we are going to build the hypothesis test for the intercept $\beta_{0}$. Like $\beta_{1}$ we have:
+
+I: Left tailed test:
+
+-   $H_{0}$: $\beta_{0}=0$
+
+-   $H_{1}$: $\beta_{0}<0$
+
+II: Right tailed test:
+
+-   $H_{0}$: $\beta_{0}=0$
+
+-   $H_{1}$: $\beta_{0}>0$
+
+III: Two tailed test:
+
+-   $H_{0}$: $\beta_{0}=0$
+
+-   $H_{1}$: $\beta_{0}\ne0$
+
+The statistic to be used is:
+
+$$T_{n-2}=\frac{B_{0}}{(\frac{S\sqrt{\sum_{i=1}^nX_{i}^2}}{\sqrt{nS_{xx}}})}$$
+
+Where $T_{n-2}$ is a random variable that has a Student T distribution with $n-2$ degrees of freedom.
+
+### Confidence intervals for $\beta_{1}$ and $\beta_{0}$
+
+The bounds of the $100(1-\alpha)$ % confidence interval for $B_{1}$ can be computed as:
+
+$$B_{1}\pm t_{\alpha/2}S/\sqrt{S_{xx}}$$
+
+And the bounds of the $100(1-\alpha)$ % confidence interval for $B_{0}$:
+
+$$B_{0}\pm t_{\alpha/2}\frac{S\sqrt{\sum_{i=1}^n}X_{i}^2}{\sqrt{nS_{xx}}}$$
+
+In both cases the distribution of $t$ is Student T with $n-2$ degrees of freedom.
+
+
+## Problems
+
+### Problem 1
+
+The data show the chest size and weight of several bears. Find the regression equation letting chest size independent variable x. Then find the best predicted weight a f a bear with a chest size of 39 inches. Is the restult  close tho the actual weight of 216 pounds?. Use a significance level of 0.05
+
+Chest size (inches): 44, 41, 41, 55, 51, 42
+
+Weight (pounds): 213, 206, 176, 309, 300, 178
+
+Solution:
+
+Insert the data in a R data frame and then make an scatter plot of the data
+
+```{r}
+# Create a data frame
+Bears <- data.frame (
+  ChestSize = c(44, 41, 41, 55, 51, 42),
+  Weight = c(213, 206, 176, 309, 300, 178)
+)
+
+# Plot the data
+plot(Bears$ChestSize, Bears$Weight, xlab='Chest Size (inch)', ylab='Weight (pounds)')
+
+```
+
+We can do a correlation test between the two variables:
+
+```{r}
+cor.test(Bears$ChestSize, Bears$Weight)
+```
+
+The data seem highly correlated (0.96). The hypothesis test says that, at 5% of significance level, the hypothesis that correlation is 0 must be rejected and there is sufficient evidence to support a positive correlation between the two variables.
+
+Lets calculate the regression line
+
+```{r}
+regr<-lm(formula=Weight~ChestSize, data=Bears)
+summary(regr)
+```
+
+And plot the data with the regression line
+
+```{r}
+plot(Bears$ChestSize, Bears$Weight, 
+     xlab='Chest Size (inch)', 
+     ylab='Weight (pounds)', 
+     abline(b = regr$coefficients[2], a = regr$coefficients[1]))
+```
+
+
+It is always a good idea to have a look to the residuals
+
+```{r}
+plot(Bears$ChestSize, regr$residuals)
+```
+
+Which seem to be randomly generated.
+Finally were are asked to predict the weight of a bear with a chest size of 39 inches:
+
+The correlation test and the linear model shows that we can use the linear equation to make that prediction
+
+```{r}
+Weight_pred<-regr$coefficients["(Intercept)"] + regr$coefficients["ChestSize"] * 39
+sprintf("The predicted weigth value is: %f", Weight_pred)
+```
+
+### Problem 2
+
+Find the regression equation, letting overhead width be the predictor x variable. Find the best predicted weight of a seal if the overhead width measured from a photograph is 1.6 cm. Can the prediction be correct?. What is wrong with predicting the wight in this case?. Use a significance level of 0.005.
+
+Overhead Width (cm): 7.4, 7.7, 8.6, 8.4, 7.2, 9.3
+
+Weight (kg): 133, 176, 207, 172, 145, 237
+
+Solution
+
+Insert the data in a R data frame and then make an scatter plot of the data
+
+```{r}
+# Create a data frame
+Weigths <- data.frame (
+  width = c(7.4, 7.7, 8.6, 8.4, 7.2, 9.3), 
+  weigth = c(133, 176, 207, 172, 145, 237)
+)
+
+# Plot the data
+plot(Weigths$width, Weigths$weigth, xlab='Overhead Width (cm)', ylab='Weight (kg)')
+
+```
+
+We can do a correlation test between the two variables:
+
+```{r}
+cor.test(Weigths$width, Weigths$weigth)
+```
+
+Lets calculate the regression line
+
+```{r}
+fit<-lm(formula=weigth~width, data=Weigths)
+summary(fit)
+```
+
+And plot the data with the regression line
+
+```{r}
+plot(Weigths$width, Weigths$weigth, 
+     xlab='Overhead Width (cm)', 
+     ylab='Weight (kg)', 
+     abline(b = fit$coefficients["width"], a = fit$coefficients["(Intercept)"]))
+```
+
+The correlation test and the linear model shows that we can use the linear equation to make that prediction
+
+```{r}
+fit_pred<-fit$coefficients["(Intercept)"] + fit$coefficients["width"] * 1.6
+sprintf("The predicted weigth value is: %f", fit_pred)
+```
+The prediction cannot be correct because a negative weight does not make sense. The width in this case is beyond the scope of the available sample data.

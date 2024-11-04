@@ -1,0 +1,134 @@
+---
+title: "Confidence Interval for Means (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-03-31"
+output: html_document
+---
+
+See [The Math Sorcerer YouTube CLT video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjOyqmTWFs8mzDIJ9i5llDuc) for Confidence Interval for Mean estimating
+
+To construct a confidence interval $1-\alpha$ for the mean of the population, $\mu$, given an sample average, $\bar{X}$, with a sample size of $n$, we distinguish two cases:
+
+(1) The standard deviation of the population, $\sigma$, is given
+
+In this case the bounds of the confidence interval are:
+
+::: {style="text-align: center;"}
+$\bar{X}\pm z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$
+:::
+
+Where $z$ is distributed N(0,1)
+
+(2) The standard deviation of the population, $\sigma$, is ***not*** given (most of cases)
+
+In that case the bounds of the confidence interval are given by:
+
+::: {style="text-align: center;"}
+$\bar{X}\pm t_{\alpha/2}\frac{S}{\sqrt{n}}$
+:::
+
+Where S is the standard deviation of the sample and $t$ is a random variable distributed Student T with $n-1$ degrees of freedom
+
+Try executing this chunk by clicking the Run button within the chunk or by placing your cursor inside it and pressing Ctrl+Shift+Enter.
+
+Add a new chunk by clicking the Insert Chunk button on the toolbar or by pressing Ctrl+Alt+I.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the Preview button or press Ctrl+Shift+K to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike Knit, Preview does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+## Problems
+
+### Problem 1
+
+Here are summary statistics for randomly selected weights of newborn girls: n=180, sample average= 28.6 hg, sample standard deviation=6.5 hg. Construct a confidence interval estimate of the mean. Use a 95% confidence level. Are these results very different from the confidence interval of 2.7\< $\mu$ \< 29.4 hg with only 18 samples with average of 28.2 hg and standard deviation of 2.4?
+
+```{r}
+n1=180
+X1bar=28.6
+sd1=6.5
+alpha1=1-0.95
+t1<-qt(1-alpha1/2, df=n1-1, lower.tail=TRUE)
+highLimit1<-X1bar+t1*sd1/sqrt(n1)
+lowLimit1<-X1bar-t1*sd1/sqrt(n1)
+sprintf("Low limit of the interval: %f", lowLimit1)
+sprintf("High limit of the interval: %f", highLimit1)
+```
+
+the limits for the 18 samples are almost the same. With a 95% confidence the population mean weight of newborn girl is between 27.6 and 29.6
+
+### Problem 2
+
+A data set includes 103 body temperatures of healthy adults humans having a mean of 98.9ºF and a standard deviation of 0.65ºF. Construct a 99% confidence interval estimate of the mean body temperature of all humans. What does the sample suggest about the use of 98.6ºF as the mean body temperature?
+
+```{r}
+n2=103
+X2bar=98.9
+sd2=0.65
+alpha2=1-0.99
+t2<-qt(1-alpha2/2, df=n2-1, lower.tail=TRUE)
+highLimit2<-X2bar+t2*sd2/sqrt(n2)
+lowLimit2<-X2bar-t2*sd2/sqrt(n2)
+sprintf("Low limit of the interval: %f", lowLimit2)
+sprintf("High limit of the interval: %f", highLimit2)
+```
+
+The value of 98.6ºF is out of the 99% confidence interval
+
+### Problem 3
+
+In a study of speed dating, male subjects were asked to rate the attractiveness of their female dates and a sample of the results is listed below (1=not attractive, 10= extremely attractive). Construct a confidence interval using 95% confidence level. What do the results tell about the mean attractiveness ratings of the population of all adult females? 7, 7, 2, 8, 7, 5, 8, 8, 8, 9, 4, 9
+
+```{r}
+X3=c(7, 7, 2, 8, 7, 5, 8, 8, 8, 9, 4, 9)
+n3=length(X3)
+X3bar=mean(X3)
+sd3=sd(X3)
+alpha3=1-0.95
+t3<-qt(1-alpha3/2, df=n3-1, lower.tail=TRUE)
+highLimit3<-X3bar+t3*sd3/sqrt(n3)
+lowLimit3<-X3bar-t3*sd3/sqrt(n3)
+sprintf("Low limit of the interval: %f", lowLimit3)
+sprintf("High limit of the interval: %f", highLimit3)
+```
+
+### Problem 4
+
+A food safety guideline is that the mercury in fish should be below 1 part per million (ppm). Listed below are the amounts of mercury (ppm) found in tuna sushi sampled at different stores in a major city. Construct a 95% confidence interval estimate of the mean amount of mercury in the population. Does it appear that there is too much mercury in tuna sushi?.
+
+0.53, 0.80, 0.09, 0.86, 1.34, 0.49, 0.91
+
+```{r}
+X4<-c(0.53, 0.80, 0.09, 0.86, 1.34, 0.49, 0.91)
+n4<-length(X4)
+X4bar<-mean(X4)
+sd4<-sd(X4)
+alpha4<-1-0.95
+t4<-qt(1-alpha4/2, df=n4-1, lower.tail=TRUE)
+highLimit4<-X4bar+t4*sd4/sqrt(n4)
+lowLimit4<-X4bar-t4*sd4/sqrt(n4)
+sprintf("Low limit of the interval: %f", lowLimit4)
+sprintf("High limit of the interval: %f", highLimit4)
+```
+
+Yes, because it is possible that the mean is greater than 1ppm. Also, at least one of the sample values exceeds 1ppm, so at least some of the fish have too much mercury
+
+### Problem 5
+
+Salaries of 48 college graduates who took a statistic course in college have a mean oaf 62700 dollars Assuming a standard deviation, $\sigma$ of 15666 dollars, construct a 90% confidence interval for estimating the population mean $\mu$.
+
+In this case the standard deviation of he whole population is given. This is case (1), so we use the normal distribution.
+
+```{r}
+n5=48
+X5bar=62700
+sd5=15666
+alpha5<-1-0.90
+z5<-qnorm(1-alpha5/2, 0, 1)
+lowLimit5<-X5bar-z5*sd5/sqrt(n5)
+highLimit5<-X5bar+z5*sd5/sqrt(n5)
+sprintf("Low limit of the interval: %f", lowLimit5)
+sprintf("High limit of the interval: %f", highLimit5)
+```

@@ -1,0 +1,109 @@
+---
+title: "Binomial distribution (The Math Sorcerer)"
+author: "Luis Cárceles"
+output: html_document
+---
+
+## Introduction
+
+The [Math Sorcerer Youbube video playlists](https://www.youtube.com/playlist?list=PLO1y6V1SXjjPGvAwihi1vp_kqxwqUd0cI)
+
+See also the information about [binomial distribution and R Studio](https://www.geeksforgeeks.org/binomial-distribution-in-r-programming/)
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+## Problems
+
+### Problem 1
+
+It turns out to be that 41% of people use their smartphone in meetings or classes. We select randomly a group of 7 people.
+
+Which is the probability that exactly 3 of the use their smartphone in classroom or in a meeting?
+
+```{r}
+x1 <- dbinom(3, size=7, prob=0.41)
+sprintf("The probability of exactly 3 adults use their smartphone is: %f", x1)
+```
+
+### Problem 2
+
+Now assume that 54% of people use their smartphone in class. We select randomly a group of 5 people. Which is the probability that at least three people use their smartphone?
+
+```{r}
+x2 <- 1-pbinom(3-1, size=5, prob=0.54)
+sprintf("The probability that at least 3 people use their smartphone: %f", x2)
+```
+
+### Problem 3
+
+Based on a poll, 60% of adults believe in reincarnation. Assume that 4 adults are randomly selected and find the indicated probability.
+
+a: What is the probability that exactly 3 of the 4 adults believe in reincarnation?
+
+```{r}
+a<-dbinom(3, size=4, prob=0.6)
+sprintf("Probability of exactly 3 of 4 adults believe in reincarnation: %f", a)
+```
+
+b: What is the probability that all of the selected adults believe in reincarnation?
+
+```{r}
+b<-dbinom(4, size=4, prob=0.6)
+sprintf("Probability that all of selected adults believe in reincarnation: %f", b)
+```
+
+c: What is the probability that at least 3 of the selected adults believe in reincarnation?
+
+```{r}
+c<- 1-pbinom(2, size=4, prob=0.6)
+sprintf("Probability that at least 3 of the selected believe in reincarnation: %f", c)
+```
+
+### Problem 4
+
+Assume that hybridization experiments are conducted with peas having the property that for offspring, there is a 0.25 probability that a pea has green pods. Assume that the offspring peas are randomly selected in groups of 26.
+
+a: Find the mean and the standard deviation for the numbers of peas with green pods in the groups of 26.
+
+```{r}
+size=26
+p=0.25
+q<-1-p
+mean_<-size*p
+sd<-sqrt(size*p*q)
+sprintf("Mean: %f", mean_)
+sprintf("Standard deviation: %f", sd)
+```
+
+b: Use the range rule of thumb to find the values separating results that are significantly low or significantly high
+
+```{r}
+minUsualValue<-mean_-2*sd
+maxUsualValue<-mean_+2*sd
+sprintf("Minimum Usual Value: %f", minUsualValue)
+sprintf("Maximum Usual Value: %f", maxUsualValue)
+```
+
+Any value between those values will be considered an usual value.
+
+c: Print a graph of this binomial distribution
+
+```{r}
+x <- seq(0, 26, by = 1) 
+y <- dbinom(x, size = 26, prob = 0.25) 
+plot(x, y, type = 'l') 
+```
+
+d: Print a graph of the cumulative distribution
+
+```{r}
+x <- seq(0, 26, by = 1) 
+y <- pbinom(x, size = 26, prob = 0.25) 
+plot(x, y, type = 'l') 
+```

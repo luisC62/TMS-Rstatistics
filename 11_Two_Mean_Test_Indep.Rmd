@@ -1,0 +1,181 @@
+---
+title: "Hypothesis Test about Two Means (Independent Samples)  (The Math Sorcerer)"
+author: "Luis Cárceles"
+date: "2024-04-04"
+output: html_document
+---
+
+See The [YouTube play list](https://www.youtube.com/playlist?list=PLO1y6V1SXjjM6IPw36r5cXkx7YTP58VhA) by the Math Sorcerer.
+
+## Introduction
+
+### Hypothesis Test (Independent Samples)
+
+To build our hypothesis test we consider three different cases
+
+I: Left tailed test:
+
+-   $H_{0}$: $\mu_{1}=\mu_{2}$
+
+-   $H_{1}$: $\mu_{1}<\mu_{2}$
+
+II: Right tailed test:
+
+-   $H_{0}$: $\mu_{1}=\mu_{2}$
+
+-   $H_{1}$: $\mu_{1}>\mu_{2}$
+
+III: Two tailed test:
+
+-   $H_{0}$: $\mu_{1}=\mu_{2}$
+
+-   $H_{1}$: $\mu_{1}\ne \mu_{2}$
+
+To build the statistic we first compute the ***grouped variance***, $S_{p}$, using the formula:
+
+$$S_{p}^2=\frac{(n_{1}-1)S_{1}^2+(n_{2}-1)S_{2}^2}{n_{1}+n_{2}-2}$$
+
+Where $n_{1}$ and $n_{2}$ are the respective sample size and $S_{1}$ and $S_{2}$ are the respective sample standard deviations.
+
+The statistic is then:
+
+$$T_{n_{1}+n_{2}-2}=\frac{\bar{X_{1}}-\bar{X_{2}}}{S_{p}\sqrt{1/n{1}+1/n{2}}}$$ Where $T_{n_{1}+n_{2}-2}$ is distributed as Student T with $n_{1}+n_{2}-2$ degrees of freedom.
+
+### Confidence interval
+
+To compute bounds of the $1-\alpha$ confidence interval we use the following formula:
+
+$$\bar{X_{1}}-\bar{X_{2}}\pm t_{\alpha/2}S_{p}\sqrt{1/n{1}+1/n{2}}$$ Again, $t_{\alpha/2}$ is distributed as Student T with $n_{1}+n_{2}-2$ degrees of freedom.
+
+## Problems
+
+### Problem 1
+
+Data on the weights (lb) of the contents of cans of diet soda versus the contents of cans of the regular version of the soda is summarized on the enclosed table. Assume that the two samples are independent simple random samples selected from normality distributed populations, and do not assume that the population standard deviations are equal. Use a 0.05 significance level for both parts.
+
+|           |   Diet    |  Regular  |
+|:---------:|:---------:|:---------:|
+|   $\mu$   | $\mu_{1}$ | $\mu_{1}$ |
+|    $n$    |    27     |    27     |
+| $\bar{X}$ |  0.79955  |  0.81371  |
+|     S     |  0.00445  |  0.00741  |
+
+(a). Test the claim that the contents of can diet soda have weights with a mean that is less than the mean of regular soda (b). Construct a confidence interval appropriate for the hypothesis test in part (a)
+
+Solution:
+
+(a): Hypothesis test: The contents of diet soda can is less than the regular soda can.
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu_{1}=\mu_{2}$
+-   $H_{1}$: $\mu_{1}<\mu_{2}$ (Left tailed test)
+
+2.  Compute the Test Statistic:
+
+```{r}
+Xbar1=0.79955
+Xbar2=0.81371
+n1=27
+n2=27
+S1=0.00445
+S2=0.00741
+Sp<-sqrt(((n1-1)*S1^2+(n2-1)*S2^2)/(n1+n2-2))
+t<-(Xbar1-Xbar2)/(Sp*sqrt(1/n1+1/n2))
+sprintf("The value of the t statistic is: %f", t)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value<-pt(q = t, df = n1+n2-2, lower.tail = TRUE)
+sprintf("The p-value of the test is: %f", p_value)
+```
+
+4.  Make a Decision
+
+p-value is smaller than the level of significance (0.05) then we must reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's sufficient evidence to support $H_{1}$ (our claim). The content of diet soda can is lower than the content of regular soda can.
+
+(b): We are going to build a 90% confidence interval
+
+```{r}
+alpha<-1-0.90
+tci<-qt(1-alpha/2, df=n1+n2-2, lower.tail=TRUE)
+
+highLimit<-(Xbar1-Xbar2)+tci*Sp*sqrt(1/n1+1/n2)
+lowLimit<-(Xbar1-Xbar2)-tci*Sp*sqrt(1/n1+1/n2)
+sprintf("Low limit of the interval: %f", lowLimit)
+sprintf("High limit of the interval: %f", highLimit)
+```
+
+The bounds are both negative. This means that the contents of the diet soda can is completely likely to be less than the contents of regular soda can.
+
+### Problem 2
+
+A study was done ob body temperatures of men and women. The results are shown in the table. Assume that the two samples are independent simple random samples selected from normally distributed populations, and do not assume standard deviations are equal. Use a 0.05 significance level for both parts.
+
+|           |   Men     |  Women    |
+|:---------:|:---------:|:---------:|
+|   $\mu$   | $\mu_{1}$ | $\mu_{1}$ |
+|    $n$    |    11     |    59     |
+| $\bar{X}$ |  97.66 ºF |  97.38 ºF |
+|     S     |  0.82 ºF  |  0.63 ºF  |
+
+(a): Test the claim that men have a higher mean body temperature than women.
+(b): Construct a confidence interval appropriate for the hypothesis test in part (a).
+
+Solution:
+
+(a): Hypothesis test: Men have a higher mean body temperature than women.
+
+1.  State null and alternate Hypothesis:
+
+-   $H_{0}$: $\mu_{1}=\mu_{2}$
+-   $H_{1}$: $\mu_{1}>\mu_{2}$ (Right tailed test)
+
+2.  Compute the Test Statistic:
+
+```{r}
+Xbar1=97.66
+Xbar2=97.38
+n1=11
+n2=59
+S1=0.82
+S2=0.63
+Sp<-sqrt(((n1-1)*S1^2+(n2-1)*S2^2)/(n1+n2-2))
+t<-(Xbar1-Xbar2)/(Sp*sqrt(1/n1+1/n2))
+sprintf("The value of the t statistic is: %f", t)
+```
+
+3.  Compute the p-value
+
+```{r}
+p_value<-pt(q = t, df = n1+n2-2, lower.tail = FALSE)
+sprintf("The p-value of the test is: %f", p_value)
+```
+
+4.  Make a Decision
+
+p-value is higher than the level of significance (0.05) then we FAIL to reject $H_{0}$.
+
+5.  Interpretation of the results
+
+At the 5% of significance level there's NOT sufficient evidence to support $H_{1}$ (our claim). Men body temperature is not less than Women body temperature.
+
+(b): We are going to build a 90% confidence interval
+
+```{r}
+alpha<-1-0.90
+tci<-qt(1-alpha/2, df=n1+n2-2, lower.tail=TRUE)
+
+highLimit<-(Xbar1-Xbar2)+tci*Sp*sqrt(1/n1+1/n2)
+lowLimit<-(Xbar1-Xbar2)-tci*Sp*sqrt(1/n1+1/n2)
+sprintf("Low limit of the interval: %f", lowLimit)
+sprintf("High limit of the interval: %f", highLimit)
+```
+The differece of mean body temperatures between men and women can be positive or negative. We arrive at the same conclusion as the hypothesis test. We can not say that the mean body temperaature of men are lower than the mean body temperature of women.
+
